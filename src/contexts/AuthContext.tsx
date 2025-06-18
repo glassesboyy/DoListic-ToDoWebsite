@@ -87,10 +87,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initAuth = () => {
       const token = TokenManager.getToken();
-      const isValid = TokenManager.isTokenValid();
 
-      if (token && isValid) {
-        dispatch({ type: "LOGIN", payload: { token } });
+      if (token) {
+        // For temporary/mock tokens, don't validate JWT format
+        if (token.startsWith("temp_token_")) {
+          dispatch({ type: "LOGIN", payload: { token } });
+        } else {
+          // For real JWT tokens, validate them
+          const isValid = TokenManager.isTokenValid();
+          if (isValid) {
+            dispatch({ type: "LOGIN", payload: { token } });
+          } else {
+            TokenManager.removeToken();
+            dispatch({ type: "SET_LOADING", payload: false });
+          }
+        }
       } else {
         dispatch({ type: "SET_LOADING", payload: false });
       }

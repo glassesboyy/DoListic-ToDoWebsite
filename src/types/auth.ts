@@ -26,9 +26,11 @@ export interface ResetPasswordRequest {
 }
 
 export interface AuthResponse {
-  token?: string;
+  status: string;
+  message: string;
+  data?: string; // Token comes in data field
+  token?: string; // Fallback
   user?: User;
-  message?: string;
 }
 
 export interface ApiError {

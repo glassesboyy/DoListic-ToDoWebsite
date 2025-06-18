@@ -27,10 +27,8 @@ export default function LoginPage() {
 
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginRequest> = {};
-
     if (!formData.username.trim()) newErrors.username = "Username is required";
     if (!formData.password) newErrors.password = "Password is required";
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -45,29 +43,37 @@ export default function LoginPage() {
     try {
       const response = await AuthAPI.login(formData);
 
-      if (response.token) {
-        login(response.token, response.user);
+      // Handle the actual response format from your backend
+      if (response.status === "success" && (response.data || response.token)) {
+        const token = response.data || response.token!;
+
+        login(token);
         setMessage({
           type: "success",
-          text: "Login successful! Redirecting...",
+          text: "Login successful! Redirecting to dashboard...",
         });
 
-        // Redirect to dashboard after successful login
         setTimeout(() => {
           router.push("/dashboard");
         }, 1000);
+      } else {
+        setMessage({
+          type: "error",
+          text: "Login failed. Invalid response from server.",
+        });
       }
     } catch (error) {
       const apiError = error as ApiError;
-      let errorMessage = "Login failed. Please try again.";
+      let errorMessage = apiError.message || "Login failed. Please try again.";
 
-      if (apiError.status === 401) {
+      // Check for unverified email error
+      if (
+        apiError.status === 403 ||
+        apiError.message?.toLowerCase().includes("email not verified") ||
+        apiError.message?.toLowerCase().includes("please verify your email")
+      ) {
         errorMessage =
-          "Email not verified. Please check your email and verify your account.";
-      } else if (apiError.status === 404) {
-        errorMessage = "Invalid username or password.";
-      } else if (apiError.message) {
-        errorMessage = apiError.message;
+          "Your email address has not been verified yet. Please check your email inbox and click the verification link to activate your account.";
       }
 
       setMessage({
@@ -82,8 +88,6 @@ export default function LoginPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
     if (errors[name as keyof LoginRequest]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -149,7 +153,21 @@ export default function LoginPage() {
               Forgot your password?
             </Link>
           </div>
-
+          {message?.type === "error" &&
+            message.text.toLowerCase().includes("email") &&
+            message.text.toLowerCase().includes("verified") && (
+              <div className="text-center">
+                <p className="text-text-secondary text-sm">
+                  Didn't receive the email?{" "}
+                  <Link
+                    href="/auth/register"
+                    className="text-primary hover:text-primary-600 font-medium"
+                  >
+                    Register again
+                  </Link>
+                </p>
+              </div>
+            )}
           <div className="text-center">
             <p className="text-text-secondary">
               Don't have an account?{" "}
