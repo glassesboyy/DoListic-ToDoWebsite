@@ -22,7 +22,6 @@ class AuthAPI {
     try {
       const response = await fetch(url, {
         mode: "cors", // Pastikan mode CORS eksplisit
-        credentials: "include", // Jika menggunakan cookies
         headers: {
           "Content-Type": "application/json",
           ...options.headers,
@@ -83,6 +82,22 @@ class AuthAPI {
     return this.makeRequest<AuthResponse>("/reset-password", {
       method: "PUT",
       body: JSON.stringify(data),
+    });
+  }
+
+  // Add method for authenticated requests (if needed for future API calls)
+  static async makeAuthenticatedRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    const token = TokenManager.getToken();
+
+    return this.makeRequest<T>(endpoint, {
+      ...options,
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+        ...options.headers,
+      },
     });
   }
 }
