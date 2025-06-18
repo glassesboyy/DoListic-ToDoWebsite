@@ -247,6 +247,10 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition-property: background-color, border-color, color, fill, stroke,
+    box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 a {
@@ -258,4 +262,13 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* Prevent flash of unstyled content */
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
