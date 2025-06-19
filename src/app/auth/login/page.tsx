@@ -43,14 +43,15 @@ export default function LoginPage() {
     try {
       const response = await AuthAPI.login(formData);
 
-      // Handle the actual response format from your backend
       if (response.status === "success" && (response.data || response.token)) {
         const token = response.data || response.token!;
 
-        login(token);
+        // Coba login dengan user data jika ada
+        await login(token, response.user);
+
         setMessage({
           type: "success",
-          text: "Login successful! Redirecting to dashboard...",
+          text: "Login berhasil! Mengarahkan ke dashboard...",
         });
 
         setTimeout(() => {
@@ -59,21 +60,20 @@ export default function LoginPage() {
       } else {
         setMessage({
           type: "error",
-          text: "Login failed. Invalid response from server.",
+          text: "Login gagal. Response tidak valid dari server.",
         });
       }
     } catch (error) {
       const apiError = error as ApiError;
-      let errorMessage = apiError.message || "Login failed. Please try again.";
+      let errorMessage = apiError.message || "Login gagal. Silakan coba lagi.";
 
-      // Check for unverified email error
       if (
         apiError.status === 403 ||
         apiError.message?.toLowerCase().includes("email not verified") ||
         apiError.message?.toLowerCase().includes("please verify your email")
       ) {
         errorMessage =
-          "Your email address has not been verified yet. Please check your email inbox and click the verification link to activate your account.";
+          "Email Anda belum diverifikasi. Silakan cek email dan klik link verifikasi.";
       }
 
       setMessage({
