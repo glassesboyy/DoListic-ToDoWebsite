@@ -2,8 +2,9 @@
 
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTodos } from "@/contexts/TodoContext";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -11,12 +12,34 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { user, logout } = useAuth();
+  const { todos, fetchTodos } = useTodos();
   const router = useRouter();
+
+  useEffect(() => {
+    // Fetch todos for sidebar statistics
+    fetchTodos({ limit: 100 });
+  }, [fetchTodos]);
 
   const handleLogout = () => {
     logout();
     router.push("/");
   };
+
+  const getTaskStats = () => {
+    const completed = todos.filter(
+      (todo) => todo.status === "completed"
+    ).length;
+    const pending = todos.filter((todo) => todo.status !== "completed").length;
+    const overdue = todos.filter((todo) => {
+      const endDate = new Date(todo.end_date);
+      const now = new Date();
+      return endDate < now && todo.status !== "completed";
+    }).length;
+
+    return { total: todos.length, completed, pending, overdue };
+  };
+
+  const stats = getTaskStats();
 
   return (
     <div className="min-h-screen bg-bg-main">
@@ -43,7 +66,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
-          <aside className="lg:col-span-1">
+          <aside className="lg:col-span-1 h-full">
             <div className="space-y-6">
               {/* User Info Card */}
               <div className="bg-bg-card rounded-lg shadow-custom border border-border-light p-6">
@@ -69,6 +92,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <p className="text-text-secondary text-sm">
                     @{user?.username || "username"}
                   </p>
+                  {user?.email && (
+                    <p className="text-text-muted text-xs mt-1">{user.email}</p>
+                  )}
                 </div>
               </div>
 
@@ -99,13 +125,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M8 5v4"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 5v4"
+                        d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
                       />
                     </svg>
                     Dashboard
@@ -130,56 +150,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     </svg>
                     All Tasks
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start"
-                    onClick={() => router.push("/dashboard/tasks/new")}
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      />
-                    </svg>
-                    Add Task
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start"
-                    onClick={() => router.push("/dashboard/settings")}
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    Settings
-                  </Button>
                 </div>
               </div>
 
-              {/* Stats Card */}
+              {/* Dynamic Stats Card */}
               <div className="bg-bg-card rounded-lg shadow-custom border border-border-light p-6">
                 <h3 className="font-semibold text-text-primary mb-4">
                   Task Statistics
@@ -187,20 +161,53 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-text-secondary">Total Tasks</span>
-                    <span className="font-medium text-text-primary">3</span>
+                    <span className="font-medium text-text-primary">
+                      {stats.total}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-text-secondary">Completed</span>
-                    <span className="font-medium text-success-600">1</span>
+                    <span className="font-medium text-success-600">
+                      {stats.completed}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-text-secondary">Pending</span>
-                    <span className="font-medium text-warning-600">2</span>
+                    <span className="font-medium text-warning-600">
+                      {stats.pending}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-text-secondary">Overdue</span>
-                    <span className="font-medium text-error-600">0</span>
+                    <span className="font-medium text-error-600">
+                      {stats.overdue}
+                    </span>
                   </div>
+                  {stats.total > 0 && (
+                    <>
+                      <div className="border-t border-border-light pt-3 mt-3">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-text-secondary text-sm">
+                            Progress
+                          </span>
+                          <span className="text-text-primary text-sm font-medium">
+                            {((stats.completed / stats.total) * 100).toFixed(0)}
+                            %
+                          </span>
+                        </div>
+                        <div className="w-full bg-neutral-200 rounded-full h-2">
+                          <div
+                            className="bg-success-500 h-2 rounded-full transition-all duration-300"
+                            style={{
+                              width: `${
+                                (stats.completed / stats.total) * 100
+                              }%`,
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
