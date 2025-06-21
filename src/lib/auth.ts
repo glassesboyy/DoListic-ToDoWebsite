@@ -97,21 +97,6 @@ class AuthAPI {
     });
   }
 
-  // Endpoint baru untuk mendapatkan profil user
-  static async getProfile(): Promise<{
-    status: string;
-    message: string;
-    data: User;
-  }> {
-    return this.makeAuthenticatedRequest<{
-      status: string;
-      message: string;
-      data: User;
-    }>("/user/profile", {
-      method: "GET",
-    });
-  }
-
   static async makeAuthenticatedRequest<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -127,9 +112,23 @@ class AuthAPI {
     return this.makeRequest<T>(endpoint, {
       ...options,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
         ...options.headers,
       },
+    });
+  }
+
+  static async getProfile(): Promise<{
+    status: string;
+    message: string;
+    data: User;
+  }> {
+    return this.makeAuthenticatedRequest<{
+      status: string;
+      message: string;
+      data: User;
+    }>("/user/profile", {
+      method: "GET",
     });
   }
 }

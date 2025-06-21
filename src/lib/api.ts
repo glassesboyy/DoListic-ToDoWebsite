@@ -16,9 +16,9 @@ class ApiClient {
       ...(options.headers as Record<string, string>),
     };
 
-    // Tambahkan Authorization header jika ada token
+    // Tambahkan Authorization header jika ada token Bearer
     if (token) {
-      headers.Authorization = `Bearer ${token}`;
+      headers.Authorization = token;
     }
 
     try {
