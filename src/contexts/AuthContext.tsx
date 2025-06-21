@@ -1,6 +1,6 @@
 "use client";
 
-import { TokenManager } from "@/lib/auth";
+import AuthAPI, { TokenManager } from "@/lib/auth";
 import { User } from "@/types/auth";
 import {
   createContext,
@@ -17,13 +17,14 @@ interface AuthState {
 }
 
 interface AuthContextType extends AuthState {
-  login: (token: string, user?: User) => void;
+  login: (token: string, user?: User | null) => Promise<void>;
   logout: () => void;
   setUser: (user: User) => void;
+  refreshUser: () => Promise<void>;
 }
 
 type AuthAction =
-  | { type: "LOGIN"; payload: { token: string; user?: User } }
+  | { type: "LOGIN"; payload: { user: User } }
   | { type: "LOGOUT" }
   | { type: "SET_USER"; payload: User }
   | { type: "SET_LOADING"; payload: boolean };
@@ -36,7 +37,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user || state.user,
+        user: action.payload.user,
         isLoading: false,
       };
     case "LOGOUT":
@@ -70,19 +71,48 @@ const initialState: AuthState = {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = (token: string, user?: User) => {
+  const refreshUser = async (): Promise<void> => {
+    try {
+      const response = await AuthAPI.getProfile();
+      if (response.data) {
+        dispatch({
+          type: "SET_USER",
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to refresh user data:", error);
+      // Jika gagal ambil profile, logout user
+      logout();
+    }
+  };
+
+  const login = async (token: string, user?: User | null): Promise<void> => {
     TokenManager.setToken(token);
 
-    // Jika user tidak diberikan, coba ekstrak dari token
-    const finalUser = user || TokenManager.getUserFromToken();
+    let finalUser = user;
 
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        token,
-        user: finalUser,
-      },
-    });
+    // Jika user tidak diberikan, coba ambil dari backend
+    if (!finalUser) {
+      try {
+        const response = await AuthAPI.getProfile();
+        finalUser = response.data;
+      } catch (error) {
+        // Fallback ke token extraction
+        finalUser = TokenManager.getUserFromToken();
+      }
+    }
+
+    if (finalUser) {
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: finalUser,
+        },
+      });
+    } else {
+      throw new Error("Unable to get user information");
+    }
   };
 
   const logout = () => {
@@ -100,31 +130,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    const initAuth = () => {
+    const initAuth = async () => {
       const token = TokenManager.getToken();
 
-      if (token) {
-        // For temporary/mock tokens, don't validate JWT format
-        if (token.startsWith("temp_token_")) {
-          dispatch({
-            type: "LOGIN",
-            payload: {
-              token,
-            },
-          });
-        } else {
-          // For real JWT tokens, validate them
-          const isValid = TokenManager.isTokenValid();
-          if (isValid) {
-            const user = TokenManager.getUserFromToken();
+      if (token && TokenManager.isTokenValid()) {
+        try {
+          // Prioritaskan mengambil data user dari backend
+          const response = await AuthAPI.getProfile();
+          if (response.data) {
             dispatch({
               type: "LOGIN",
               payload: {
-                token,
-                user,
+                user: response.data,
               },
             });
           } else {
+            throw new Error("No user data from backend");
+          }
+        } catch (error) {
+          console.error("Failed to get user profile:", error);
+
+          // Fallback ke token extraction untuk development
+          const userFromToken = TokenManager.getUserFromToken();
+          if (userFromToken) {
+            dispatch({
+              type: "LOGIN",
+              payload: {
+                user: userFromToken,
+              },
+            });
+          } else {
+            // Token invalid atau tidak bisa ekstrak user
             TokenManager.removeToken();
             dispatch({
               type: "SET_LOADING",
@@ -133,6 +169,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
       } else {
+        // No token atau token invalid
+        TokenManager.removeToken();
         dispatch({
           type: "SET_LOADING",
           payload: false,
@@ -150,6 +188,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         setUser,
+        refreshUser,
       }}
     >
       {children}

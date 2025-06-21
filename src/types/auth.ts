@@ -15,7 +15,8 @@ export interface RegisterRequest {
 }
 
 export interface LoginRequest {
-  username: string;
+  username?: string;
+  email?: string;
   password: string;
 }
 
@@ -36,4 +37,17 @@ export interface AuthResponse {
 export interface ApiError {
   message: string;
   status: number;
+}
+
+// Response types untuk API backend
+export interface ProfileResponse {
+  status: string;
+  message: string;
+  data: User;
+}
+
+export interface ApiResponse<T = any> {
+  status: string;
+  message: string;
+  data?: T;
 }

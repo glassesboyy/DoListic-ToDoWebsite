@@ -4,9 +4,10 @@ import {
   LoginRequest,
   RegisterRequest,
   ResetPasswordRequest,
+  User,
 } from "@/types/auth";
 
-const API_BASE_URL = "http://localhost:8080/api/auth";
+const API_BASE_URL = "http://localhost:8080/api";
 
 class AuthAPI {
   private static async makeRequest<T>(
@@ -68,21 +69,21 @@ class AuthAPI {
   }
 
   static async register(data: RegisterRequest): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>("/register", {
+    return this.makeRequest<AuthResponse>("/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   static async login(data: LoginRequest): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>("/login", {
+    return this.makeRequest<AuthResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
   static async verifyEmail(token: string): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>(`/verify-email?token=${token}`, {
+    return this.makeRequest<AuthResponse>(`/auth/verify-email?token=${token}`, {
       method: "GET",
     });
   }
@@ -90,9 +91,24 @@ class AuthAPI {
   static async resetPassword(
     data: ResetPasswordRequest
   ): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>("/reset-password", {
+    return this.makeRequest<AuthResponse>("/auth/reset-password", {
       method: "PUT",
       body: JSON.stringify(data),
+    });
+  }
+
+  // Endpoint baru untuk mendapatkan profil user
+  static async getProfile(): Promise<{
+    status: string;
+    message: string;
+    data: User;
+  }> {
+    return this.makeAuthenticatedRequest<{
+      status: string;
+      message: string;
+      data: User;
+    }>("/user/profile", {
+      method: "GET",
     });
   }
 
@@ -101,10 +117,17 @@ class AuthAPI {
     options: RequestInit = {}
   ): Promise<T> {
     const token = TokenManager.getToken();
+    if (!token) {
+      throw {
+        message: "No authentication token found",
+        status: 401,
+      } as ApiError;
+    }
+
     return this.makeRequest<T>(endpoint, {
       ...options,
       headers: {
-        ...(token && { Authorization: `Bearer ${token}` }),
+        Authorization: `Bearer ${token}`,
         ...options.headers,
       },
     });
@@ -131,36 +154,61 @@ export const TokenManager = {
     const token = this.getToken();
     if (!token) return false;
 
+    // Untuk development/testing dengan temporary token
     if (token.startsWith("temp_token_")) {
       return true;
     }
 
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload.exp * 1000 > Date.now();
-    } catch {
+      // Validasi JWT token format dan expiry
+      const parts = token.split(".");
+      if (parts.length !== 3) return false;
+
+      const payload = JSON.parse(atob(parts[1]));
+      const now = Math.floor(Date.now() / 1000);
+
+      // Check if token is expired
+      if (payload.exp && payload.exp < now) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Token validation error:", error);
       return false;
     }
   },
 
-  getUserFromToken(): any | null {
+  getUserFromToken(): User | null {
     const token = this.getToken();
     if (!token) return null;
 
+    // Untuk development/testing dengan temporary token
     if (token.startsWith("temp_token_")) {
-      return null;
+      return {
+        id: "temp_user",
+        name: "Test User",
+        username: "testuser",
+        email: "test@example.com",
+        emailVerified: true,
+      };
     }
 
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
+      const parts = token.split(".");
+      if (parts.length !== 3) return null;
+
+      const payload = JSON.parse(atob(parts[1]));
+
       return {
-        id: payload.id?.toString() || "",
+        id: payload.id?.toString() || payload.sub?.toString() || "",
         name: payload.name || "",
         username: payload.username || "",
         email: payload.email || "",
-        emailVerified: true, // Karena user sudah bisa login, berarti email sudah verified
+        emailVerified: payload.email_verified || true,
       };
-    } catch {
+    } catch (error) {
+      console.error("Error extracting user from token:", error);
       return null;
     }
   },
