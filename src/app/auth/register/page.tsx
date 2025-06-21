@@ -56,19 +56,9 @@ export default function RegisterPage() {
     setIsLoading(true);
     try {
       await AuthAPI.register(formData);
-      setMessage({
-        type: "success",
-        text: "Registration successful! Please check your email to verify your account.",
-      });
 
-      // Reset form
-      setFormData({
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-        password_confirm: "",
-      });
+      // Redirect to success page instead of showing message
+      router.push("/auth/register-success");
     } catch (error) {
       const apiError = error as ApiError;
       setMessage({

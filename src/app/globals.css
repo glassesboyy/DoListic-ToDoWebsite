@@ -272,3 +272,29 @@ html {
 html.dark {
   color-scheme: dark;
 }
+
+/* Custom utility classes */
+.shadow-custom {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-custom-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Smooth sidebar transitions */
+@media (max-width: 1023px) {
+  .sidebar-transition {
+    transition: transform 0.3s ease-in-out;
+  }
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

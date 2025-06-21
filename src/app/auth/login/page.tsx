@@ -46,8 +46,8 @@ export default function LoginPage() {
       if (response.status === "success" && (response.data || response.token)) {
         const token = response.data || response.token!;
 
-        // Coba login dengan user data jika ada
-        await login(token, response.user);
+        // Login akan otomatis mengekstrak user data dari token
+        await login(token);
 
         setMessage({
           type: "success",

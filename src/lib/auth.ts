@@ -142,6 +142,28 @@ export const TokenManager = {
       return false;
     }
   },
+
+  getUserFromToken(): any | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    if (token.startsWith("temp_token_")) {
+      return null;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      return {
+        id: payload.id?.toString() || "",
+        name: payload.name || "",
+        username: payload.username || "",
+        email: payload.email || "",
+        emailVerified: true, // Karena user sudah bisa login, berarti email sudah verified
+      };
+    } catch {
+      return null;
+    }
+  },
 };
 
 export default AuthAPI;

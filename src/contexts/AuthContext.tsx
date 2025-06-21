@@ -72,16 +72,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (token: string, user?: User) => {
     TokenManager.setToken(token);
-    dispatch({ type: "LOGIN", payload: { token, user } });
+
+    // Jika user tidak diberikan, coba ekstrak dari token
+    const finalUser = user || TokenManager.getUserFromToken();
+
+    dispatch({
+      type: "LOGIN",
+      payload: {
+        token,
+        user: finalUser,
+      },
+    });
   };
 
   const logout = () => {
     TokenManager.removeToken();
-    dispatch({ type: "LOGOUT" });
+    dispatch({
+      type: "LOGOUT",
+    });
   };
 
   const setUser = (user: User) => {
-    dispatch({ type: "SET_USER", payload: user });
+    dispatch({
+      type: "SET_USER",
+      payload: user,
+    });
   };
 
   useEffect(() => {
@@ -91,19 +106,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token) {
         // For temporary/mock tokens, don't validate JWT format
         if (token.startsWith("temp_token_")) {
-          dispatch({ type: "LOGIN", payload: { token } });
+          dispatch({
+            type: "LOGIN",
+            payload: {
+              token,
+            },
+          });
         } else {
           // For real JWT tokens, validate them
           const isValid = TokenManager.isTokenValid();
           if (isValid) {
-            dispatch({ type: "LOGIN", payload: { token } });
+            const user = TokenManager.getUserFromToken();
+            dispatch({
+              type: "LOGIN",
+              payload: {
+                token,
+                user,
+              },
+            });
           } else {
             TokenManager.removeToken();
-            dispatch({ type: "SET_LOADING", payload: false });
+            dispatch({
+              type: "SET_LOADING",
+              payload: false,
+            });
           }
         }
       } else {
-        dispatch({ type: "SET_LOADING", payload: false });
+        dispatch({
+          type: "SET_LOADING",
+          payload: false,
+        });
       }
     };
 
