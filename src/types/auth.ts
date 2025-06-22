@@ -15,15 +15,22 @@ export interface RegisterRequest {
 }
 
 export interface LoginRequest {
-  username?: string;
+  username: string;
   email?: string;
   password: string;
 }
 
+// New: Forgot password request
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+// Updated: Reset password now uses OTP
 export interface ResetPasswordRequest {
   email: string;
-  username: string;
+  otp_code: string;
   new_password: string;
+  password_confirm: string;
 }
 
 export interface AuthResponse {

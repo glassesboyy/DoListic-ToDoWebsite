@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginRequest> = {};
-    if (!formData.username.trim()) newErrors.username = "Username is required";
+    if (!formData.username?.trim()) newErrors.username = "Username is required";
     if (!formData.password) newErrors.password = "Password is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -147,7 +147,7 @@ export default function LoginPage() {
         <div className="mt-6 space-y-4">
           <div className="text-center">
             <Link
-              href="/auth/reset-password"
+              href="/auth/forgot-password"
               className="text-primary hover:text-primary-600 text-sm font-medium"
             >
               Forgot your password?

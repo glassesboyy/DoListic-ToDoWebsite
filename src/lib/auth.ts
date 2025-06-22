@@ -3,6 +3,7 @@ import {
   AuthResponse,
   LoginRequest,
   RegisterRequest,
+  ForgotPasswordRequest,
   ResetPasswordRequest,
   User,
 } from "@/types/auth";
@@ -88,11 +89,22 @@ class AuthAPI {
     });
   }
 
+  // New: Request reset password (sends OTP to email)
+  static async forgotPassword(
+    data: ForgotPasswordRequest
+  ): Promise<AuthResponse> {
+    return this.makeRequest<AuthResponse>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  // Updated: Reset password with OTP
   static async resetPassword(
     data: ResetPasswordRequest
   ): Promise<AuthResponse> {
     return this.makeRequest<AuthResponse>("/auth/reset-password", {
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify(data),
     });
   }

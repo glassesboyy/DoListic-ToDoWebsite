@@ -6,7 +6,7 @@ interface AlertProps {
 
 export default function Alert({ type, message, onClose }: AlertProps) {
   const baseClasses =
-    "px-4 py-3 rounded-lg border flex items-center justify-between";
+    "px-4 py-3 rounded-lg text-sm border flex items-center justify-between";
 
   const typeClasses = {
     success: "bg-success-50 border-success-200 text-success-700",
