@@ -5,6 +5,8 @@ interface TextareaProps
   label?: string;
   error?: string;
   helperText?: string;
+  className?: string;
+  id?: string;
 }
 
 export default function Textarea({
