@@ -33,6 +33,12 @@ export interface ResetPasswordRequest {
   password_confirm: string;
 }
 
+export interface UpdateProfileRequest {
+  name: string;
+  username: string;
+  email: string;
+}
+
 export interface AuthResponse {
   status: string;
   message: string;

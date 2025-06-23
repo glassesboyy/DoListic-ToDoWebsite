@@ -1,9 +1,9 @@
 import {
   ApiError,
   AuthResponse,
+  ForgotPasswordRequest,
   LoginRequest,
   RegisterRequest,
-  ForgotPasswordRequest,
   ResetPasswordRequest,
   User,
 } from "@/types/auth";
@@ -141,6 +141,23 @@ class AuthAPI {
       data: User;
     }>("/user/profile", {
       method: "GET",
+    });
+  }
+
+  static async updateProfile(data: {
+    name: string;
+    username: string;
+    email: string;
+  }): Promise<{
+    status: string;
+    message: string;
+  }> {
+    return this.makeAuthenticatedRequest<{
+      status: string;
+      message: string;
+    }>("/user/update-profile", {
+      method: "PUT",
+      body: JSON.stringify(data),
     });
   }
 }
