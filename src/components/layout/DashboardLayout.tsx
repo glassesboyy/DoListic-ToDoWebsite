@@ -164,69 +164,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               Trash
             </Link>
           </nav>
-
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t border-border-light space-y-4">
-            {/* Theme Toggle */}
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-text-secondary">Theme</span>
-              <ThemeToggle />
-            </div>
-
-            {/* User Info */}
-            <div className="flex items-center space-x-3 p-3 bg-bg-secondary rounded-lg">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-white">
-                    {(user?.name || user?.username || "U")
-                      .charAt(0)
-                      .toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-text-primary truncate">
-                  {user?.name || user?.username || "User"}
-                </p>
-                <p className="text-xs text-text-secondary truncate">
-                  {user?.email || "user@example.com"}
-                </p>
-              </div>
-            </div>
-
-            {/* Logout Button */}
-            <Button
-              variant="danger"
-              onClick={handleLogout}
-              className="w-full justify-center"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-              Sign Out
-            </Button>
-          </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 lg:ml-0">
-        {/* Mobile Header */}
-        <header className="lg:hidden bg-bg-card border-b border-border-light px-4 py-3">
-          <div className="flex items-center justify-between">
+        {/* Global Header */}
+        <header className="flex items-center justify-between bg-bg-card border-b border-border-light px-4 py-3 sticky top-0 z-30">
+          {/* Mobile: Sidebar toggle button */}
+          <div className="flex items-center">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-md text-text-secondary hover:bg-bg-hover"
+              className="lg:hidden p-2 rounded-md text-text-secondary hover:bg-bg-hover mr-2"
             >
               <svg
                 className="w-6 h-6"
@@ -242,10 +191,51 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </svg>
             </button>
-            <h1 className="text-lg font-semibold text-text-primary">
-              To-Do App
-            </h1>
-            <div className="w-10" /> {/* Spacer */}
+          </div>
+          {/* Right section: Profile, ThemeToggle, Sign Out */}
+          <div className="flex items-center space-x-3">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            {/* User Info */}
+            <div className="flex items-center space-x-2 bg-bg-secondary rounded-lg px-3 py-2">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-white">
+                  {(user?.name || user?.username || "U")
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-sm font-medium text-text-primary truncate">
+                  {user?.name || user?.username || "User"}
+                </span>
+                <span className="text-xs text-text-secondary truncate">
+                  {user?.email || "user@example.com"}
+                </span>
+              </div>
+            </div>
+            {/* Logout Button */}
+            <Button
+              variant="danger"
+              onClick={handleLogout}
+              className="justify-center px-6 py-2"
+              size="sm"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              Sign Out
+            </Button>
           </div>
         </header>
 

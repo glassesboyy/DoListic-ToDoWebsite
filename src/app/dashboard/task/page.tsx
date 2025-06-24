@@ -89,8 +89,6 @@ export default function TaskPage() {
 
   const handleResetFilters = () => {
     const resetFilters = {
-      page: 1,
-      limit: 10,
       sort_by: "created_at",
       order: "desc" as const,
     };

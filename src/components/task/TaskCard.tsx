@@ -1,5 +1,5 @@
-import { Task, TaskStatus } from "@/types/task";
 import Button from "@/components/ui/Button";
+import { Task, TaskStatus } from "@/types/task";
 import { useState } from "react";
 
 interface TaskCardProps {
@@ -100,7 +100,7 @@ export default function TaskCard({
               View
             </Button>
           )}
-          <Button variant="outline" size="sm" onClick={() => onEdit(task)}>
+          <Button variant="primary" size="sm" onClick={() => onEdit(task)}>
             Edit
           </Button>
           <Button variant="danger" size="sm" onClick={() => onDelete(task.id)}>

@@ -37,8 +37,6 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFiltersState] = useState<TaskFilters>({
-    page: 1,
-    limit: 10,
     sort_by: "created_at",
     order: "desc",
   });
