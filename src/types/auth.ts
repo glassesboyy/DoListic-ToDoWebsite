@@ -20,12 +20,10 @@ export interface LoginRequest {
   password: string;
 }
 
-// New: Forgot password request
 export interface ForgotPasswordRequest {
   email: string;
 }
 
-// Updated: Reset password now uses OTP
 export interface ResetPasswordRequest {
   email: string;
   otp_code: string;
@@ -52,7 +50,6 @@ export interface ApiError {
   status: number;
 }
 
-// Response types untuk API backend
 export interface ProfileResponse {
   status: string;
   message: string;
