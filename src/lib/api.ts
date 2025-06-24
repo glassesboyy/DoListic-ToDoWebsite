@@ -11,10 +11,17 @@ class ApiClient {
     const url = `${API_BASE_URL}${endpoint}`;
     const token = TokenManager.getToken();
 
-    const headers: Record<string, string> = {
+    let headers: Record<string, string> = {
       "Content-Type": "application/json",
       ...(options.headers as Record<string, string>),
     };
+
+    // Jika body adalah FormData, hapus Content-Type agar browser yang set
+    if (options.body instanceof FormData) {
+      headers = { ...(options.headers as Record<string, string>) };
+      // Hapus Content-Type jika ada
+      delete headers["Content-Type"];
+    }
 
     // Tambahkan Authorization header jika ada token Bearer
     if (token) {
@@ -72,6 +79,13 @@ class ApiClient {
   }
 
   static async post<T>(endpoint: string, data?: any): Promise<T> {
+    // Jika data adalah FormData, jangan JSON.stringify dan biarkan Content-Type diatur browser
+    if (data instanceof FormData) {
+      return this.makeRequest<T>(endpoint, {
+        method: "POST",
+        body: data,
+      });
+    }
     return this.makeRequest<T>(endpoint, {
       method: "POST",
       body: data ? JSON.stringify(data) : undefined,
@@ -79,6 +93,13 @@ class ApiClient {
   }
 
   static async put<T>(endpoint: string, data?: any): Promise<T> {
+    // Jika data adalah FormData, jangan JSON.stringify dan biarkan Content-Type diatur browser
+    if (data instanceof FormData) {
+      return this.makeRequest<T>(endpoint, {
+        method: "PUT",
+        body: data,
+      });
+    }
     return this.makeRequest<T>(endpoint, {
       method: "PUT",
       body: data ? JSON.stringify(data) : undefined,

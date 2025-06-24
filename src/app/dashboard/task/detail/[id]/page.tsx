@@ -1,13 +1,14 @@
 "use client";
 
-import Button from "@/components/ui/Button";
+import AttachmentList from "@/components/task/AttachmentList";
 import Alert from "@/components/ui/Alert";
+import Button from "@/components/ui/Button";
 import { useTask } from "@/contexts/TaskContext";
+import TaskAPI from "@/lib/taskApi";
+import { ApiError } from "@/types/auth";
 import { Task, TaskStatus } from "@/types/task";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import TaskAPI from "@/lib/taskApi";
-import { ApiError } from "@/types/auth";
 
 export default function TaskDetailPage() {
   const params = useParams();
@@ -39,6 +40,24 @@ export default function TaskDetailPage() {
     if (taskId) {
       fetchTaskDetail();
     }
+  }, [taskId]);
+
+  // Add a function to refresh task detail after attachment changes
+  const refreshTask = async () => {
+    try {
+      setLoading(true);
+      const data = await TaskAPI.getTaskById(taskId);
+      setTask(data);
+    } catch (err) {
+      const apiError = err as ApiError;
+      setError(apiError.message || "Failed to fetch task details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    refreshTask();
   }, [taskId]);
 
   const getStatusColor = (status: TaskStatus) => {
@@ -233,44 +252,14 @@ export default function TaskDetailPage() {
             </div>
           </div>
 
-          {/* Metadata */}
-          <div>
-            <h3 className="text-lg font-medium text-text-primary mb-3">
-              Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-bg-secondary rounded-lg p-4">
-                <h4 className="font-medium text-text-secondary mb-1">
-                  Created
-                </h4>
-                <p className="text-text-primary">
-                  {formatDate(task.created_at)}
-                </p>
-              </div>
-              <div className="bg-bg-secondary rounded-lg p-4">
-                <h4 className="font-medium text-text-secondary mb-1">
-                  Last Updated
-                </h4>
-                <p className="text-text-primary">
-                  {formatDate(task.updated_at)}
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Attachments */}
-          {task.attachments && task.attachments.length > 0 && (
-            <div>
-              <h3 className="text-lg font-medium text-text-primary mb-3">
-                Attachments
-              </h3>
-              <div className="bg-bg-secondary rounded-lg p-4">
-                <p className="text-text-primary">
-                  {task.attachments.length} file(s) attached
-                </p>
-              </div>
-            </div>
-          )}
+          <div>
+            <AttachmentList
+              todoId={task.id}
+              attachments={task.attachments || []}
+              onChange={refreshTask}
+            />
+          </div>
         </div>
       </div>
 

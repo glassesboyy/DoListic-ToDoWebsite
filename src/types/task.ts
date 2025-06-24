@@ -21,12 +21,15 @@ export interface Task {
   };
 }
 
+export type AttachmentType = "image" | "file" | "link";
+
 export interface Attachment {
   id: number;
-  filename: string;
+  todo_id?: number; // optional for frontend
+  file_name: string;
   url: string;
   mime_type: string;
-  type: string;
+  type: AttachmentType;
   created_at: string;
   updated_at: string;
 }
