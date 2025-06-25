@@ -25,6 +25,11 @@ export default function TaskPage() {
     selectAllTasks,
     clearSelection,
     clearError,
+    currentPage,
+    totalPages,
+    totalTasks,
+    goToPage,
+    pageLimit,
   } = useTask();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -33,7 +38,8 @@ export default function TaskPage() {
   const [isBulkDeleting, setIsBulkDeleting] = useState(false);
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasks(undefined, 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreateTask = () => {
@@ -84,7 +90,7 @@ export default function TaskPage() {
   };
 
   const handleSearch = () => {
-    fetchTasks(filters);
+    fetchTasks(filters, 1); // always reset to page 1 on search
   };
 
   const handleResetFilters = () => {
@@ -93,7 +99,7 @@ export default function TaskPage() {
       order: "desc" as const,
     };
     setFilters(resetFilters);
-    fetchTasks(resetFilters);
+    fetchTasks(resetFilters, 1);
   };
 
   // Safe array operations with null checks
@@ -216,19 +222,61 @@ export default function TaskPage() {
           <Button onClick={handleCreateTask}>Create Your First Task</Button>
         </div>
       ) : (
-        <div className="grid gap-4">
-          {safeTasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              isSelected={safeSelectedTasks.includes(task.id)}
-              onSelect={toggleTaskSelection}
-              onView={handleViewTask}
-              onEdit={handleEditTask}
-              onDelete={handleDeleteTask}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4">
+            {safeTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                isSelected={safeSelectedTasks.includes(task.id)}
+                onSelect={toggleTaskSelection}
+                onView={handleViewTask}
+                onEdit={handleEditTask}
+                onDelete={handleDeleteTask}
+              />
+            ))}
+          </div>
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between mt-6">
+            <div className="text-sm text-text-secondary">
+              Showing {(currentPage - 1) * pageLimit + 1}
+              {" - "}
+              {Math.min(currentPage * pageLimit, totalTasks)} of {totalTasks}{" "}
+              tasks
+            </div>
+            <div className="flex items-center space-x-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage <= 1}
+              >
+                Prev
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <Button
+                    key={page}
+                    variant={page === currentPage ? "primary" : "outline"}
+                    size="sm"
+                    onClick={() => goToPage(page)}
+                    disabled={page === currentPage}
+                  >
+                    {page}
+                  </Button>
+                )
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
       )}
 
       {/* Bulk Delete Confirmation Modal */}

@@ -16,9 +16,13 @@ interface TaskContextType {
   error: string | null;
   filters: TaskFilters;
   selectedTasks: number[];
+  currentPage: number;
+  totalPages: number;
+  totalTasks: number;
+  pageLimit: number;
 
   // Actions
-  fetchTasks: (filters?: TaskFilters) => Promise<void>;
+  fetchTasks: (filters?: TaskFilters, page?: number) => Promise<void>;
   createTask: (data: CreateTaskRequest) => Promise<void>;
   updateTask: (id: number, data: UpdateTaskRequest) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
@@ -28,6 +32,7 @@ interface TaskContextType {
   selectAllTasks: () => void;
   clearSelection: () => void;
   clearError: () => void;
+  goToPage: (page: number) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -41,15 +46,29 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     order: "desc",
   });
   const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [pageLimit, setPageLimit] = useState(10);
 
-  const fetchTasks = async (newFilters?: TaskFilters) => {
+  const fetchTasks = async (newFilters?: TaskFilters, page?: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const finalFilters = newFilters || filters;
-      const data = await TaskAPI.getTasks(finalFilters);
-      setTasks(data);
+      const finalFilters = { ...filters, ...newFilters };
+      const pageToFetch = page ?? currentPage;
+      const filtersWithPage = {
+        ...finalFilters,
+        page: pageToFetch,
+        limit: pageLimit,
+      };
+      const response = await TaskAPI.getTasks(filtersWithPage);
+      setTasks(Array.isArray(response.data) ? response.data : []);
+      setCurrentPage(response.page || 1);
+      setTotalPages(response.total_pages || 1);
+      setTotalTasks(response.total || 0);
+      setPageLimit(response.limit || 10);
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || "Failed to fetch tasks");
@@ -64,7 +83,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
 
     try {
       await TaskAPI.createTask(data);
-      await fetchTasks(); // Refresh tasks
+      await fetchTasks(undefined, 1); // Refresh to page 1
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || "Failed to create task");
@@ -80,7 +99,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
 
     try {
       await TaskAPI.updateTask(id, data);
-      await fetchTasks(); // Refresh tasks
+      await fetchTasks();
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || "Failed to update task");
@@ -96,7 +115,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
 
     try {
       await TaskAPI.deleteTask(id);
-      await fetchTasks(); // Refresh tasks
+      await fetchTasks();
       setSelectedTasks((prev) => {
         const safeArray = Array.isArray(prev) ? prev : [];
         return safeArray.filter((taskId) => taskId !== id);
@@ -116,7 +135,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
 
     try {
       await TaskAPI.bulkDeleteTasks({ ids });
-      await fetchTasks(); // Refresh tasks
+      await fetchTasks();
       setSelectedTasks([]);
     } catch (err) {
       const apiError = err as ApiError;
@@ -152,6 +171,10 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     setError(null);
   };
 
+  const goToPage = (page: number) => {
+    fetchTasks(undefined, page);
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -160,6 +183,10 @@ export function TaskProvider({ children }: { children: ReactNode }) {
         error,
         filters,
         selectedTasks: Array.isArray(selectedTasks) ? selectedTasks : [],
+        currentPage,
+        totalPages,
+        totalTasks,
+        pageLimit,
         fetchTasks,
         createTask,
         updateTask,
@@ -170,6 +197,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
         selectAllTasks,
         clearSelection,
         clearError,
+        goToPage,
       }}
     >
       {children}

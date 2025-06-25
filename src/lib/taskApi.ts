@@ -2,10 +2,10 @@ import {
   ApiResponse,
   BulkDeleteRequest,
   CreateTaskRequest,
+  PaginatedTasksResponse,
   Task,
   TaskFilters,
   TaskResponse,
-  TasksResponse,
   UpdateTaskRequest,
 } from "@/types/task";
 import ApiClient from "./api";
@@ -24,11 +24,13 @@ class TaskAPI {
     return params.toString();
   }
 
-  static async getTasks(filters: TaskFilters = {}): Promise<Task[]> {
+  static async getTasks(
+    filters: TaskFilters = {}
+  ): Promise<PaginatedTasksResponse> {
     const queryString = this.buildQueryString(filters);
     const endpoint = queryString ? `/todos?${queryString}` : "/todos";
-    const response = await ApiClient.get<TasksResponse>(endpoint);
-    return response.data;
+    const response = await ApiClient.get<PaginatedTasksResponse>(endpoint);
+    return response;
   }
 
   static async getTask(id: number): Promise<Task> {

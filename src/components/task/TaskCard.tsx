@@ -19,7 +19,7 @@ export default function TaskCard({
   onEdit,
   onDelete,
 }: TaskCardProps) {
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails] = useState(false);
 
   const getStatusColor = (status: TaskStatus) => {
     switch (status) {
