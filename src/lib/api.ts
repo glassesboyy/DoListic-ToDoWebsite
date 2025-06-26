@@ -1,7 +1,6 @@
 import { ApiError } from "@/types/auth";
 import { TokenManager } from "./auth";
-
-const API_BASE_URL = "http://localhost:8080/api";
+import { API_BASE_URL } from "./env";
 
 class ApiClient {
   private static async makeRequest<T>(

@@ -1,5 +1,6 @@
 import { Attachment } from "@/types/task";
 import ApiClient from "./api";
+import { API_BASE_URL } from "./env";
 
 export interface UploadAttachmentResponse {
   status: string;
@@ -44,9 +45,7 @@ export const AttachmentAPI = {
 
   async download(todoId: number, attachmentId: number): Promise<string> {
     // Returns the download URL
-    return `${
-      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api"
-    }/todos/${todoId}/attachment/${attachmentId}/download`;
+    return `${API_BASE_URL}/todos/${todoId}/attachment/${attachmentId}/download`;
   },
 
   async delete(todoId: number, attachmentId: number): Promise<void> {
