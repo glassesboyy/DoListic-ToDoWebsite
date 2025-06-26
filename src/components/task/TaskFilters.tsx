@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import { TaskFilters, TaskStatus } from "@/types/task";
+import { HiOutlineSearch } from "react-icons/hi";
 
 interface TaskFiltersProps {
   filters: TaskFilters;
@@ -88,19 +89,7 @@ export default function TaskFiltersComponent({
 
       <div className="flex items-center space-x-3">
         <Button onClick={onSearch}>
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <HiOutlineSearch className="w-4 h-4 mr-2" />
           Search
         </Button>
         <Button variant="outline" onClick={onReset}>

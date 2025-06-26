@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { FiClipboard, FiLock, FiZap } from "react-icons/fi";
 
 export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -71,19 +72,7 @@ export default function HomePage() {
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center p-6">
             <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-primary"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                />
-              </svg>
+              <FiClipboard className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-xl font-semibold text-text-primary mb-2">
               Easy Task Management
@@ -96,19 +85,7 @@ export default function HomePage() {
 
           <div className="text-center p-6">
             <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-secondary"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
+              <FiZap className="w-8 h-8 text-secondary" />
             </div>
             <h3 className="text-xl font-semibold text-text-primary mb-2">
               Lightning Fast
@@ -120,19 +97,7 @@ export default function HomePage() {
 
           <div className="text-center p-6">
             <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-success-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
+              <FiLock className="w-8 h-8 text-success-600" />
             </div>
             <h3 className="text-xl font-semibold text-text-primary mb-2">
               Secure & Private

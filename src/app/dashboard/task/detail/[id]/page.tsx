@@ -9,6 +9,7 @@ import { ApiError } from "@/types/auth";
 import { Task, TaskStatus } from "@/types/task";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FiTrash } from "react-icons/fi";
 
 export default function TaskDetailPage() {
   const params = useParams();
@@ -176,6 +177,7 @@ export default function TaskDetailPage() {
             Edit Task
           </Button>
           <Button variant="danger" onClick={() => setShowDeleteConfirm(true)}>
+            <FiTrash className="w-4 h-4 mr-2" />
             Delete
           </Button>
         </div>
@@ -271,19 +273,7 @@ export default function TaskDetailPage() {
 
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-bg-card shadow-custom-xl rounded-lg border border-border-light">
               <div className="flex items-center justify-center w-12 h-12 mx-auto bg-error-100 rounded-full mb-4">
-                <svg
-                  className="w-6 h-6 text-error-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
+                <FiTrash className="w-6 h-6 text-error-600" />
               </div>
 
               <h3 className="text-lg font-semibold text-text-primary text-center mb-2">

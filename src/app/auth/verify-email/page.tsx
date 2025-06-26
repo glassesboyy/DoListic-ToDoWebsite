@@ -7,6 +7,7 @@ import { ApiError } from "@/types/auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 
 function VerifyEmailContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -68,19 +69,7 @@ function VerifyEmailContent() {
         return (
           <div className="text-center">
             <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-success-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+              <FiCheckCircle className="w-8 h-8 text-success-600" />
             </div>
             <h1 className="text-2xl font-bold text-text-primary mb-2">
               Email Verified!
@@ -96,19 +85,7 @@ function VerifyEmailContent() {
         return (
           <div className="text-center">
             <div className="w-16 h-16 bg-error-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-error-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <FiXCircle className="w-8 h-8 text-error-600" />
             </div>
             <h1 className="text-2xl font-bold text-text-primary mb-2">
               Verification Failed

@@ -6,6 +6,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
+import {
+  HiOutlineX,
+  HiOutlineMenu,
+  HiOutlineViewGrid,
+  HiOutlineClipboardList,
+  HiOutlineUser,
+  HiOutlineTrash,
+  HiOutlineLogout,
+} from "react-icons/hi";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -65,19 +74,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden p-2 rounded-md text-text-secondary hover:bg-bg-hover"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <HiOutlineX className="w-5 h-5" />
             </button>
           </div>
 
@@ -88,19 +85,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className={getNavLinkClasses("/dashboard")}
               onClick={() => setSidebarOpen(false)}
             >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-                />
-              </svg>
+              <HiOutlineViewGrid className="w-5 h-5 mr-3" />
               Dashboard
             </Link>
             <Link
@@ -108,19 +93,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className={getNavLinkClasses("/dashboard/task")}
               onClick={() => setSidebarOpen(false)}
             >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                />
-              </svg>
+              <HiOutlineClipboardList className="w-5 h-5 mr-3" />
               Tasks
             </Link>
             <Link
@@ -128,19 +101,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className={getNavLinkClasses("/dashboard/profile")}
               onClick={() => setSidebarOpen(false)}
             >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+              <HiOutlineUser className="w-5 h-5 mr-3" />
               Profile
             </Link>
             <Link
@@ -148,19 +109,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className={getNavLinkClasses("/dashboard/trash")}
               onClick={() => setSidebarOpen(false)}
             >
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
+              <HiOutlineTrash className="w-5 h-5 mr-3" />
               Trash
             </Link>
           </nav>
@@ -177,19 +126,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 rounded-md text-text-secondary hover:bg-bg-hover mr-2"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              <HiOutlineMenu className="w-6 h-6" />
             </button>
           </div>
           {/* Right section: Profile, ThemeToggle, Sign Out */}
@@ -221,19 +158,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className="justify-center px-6 py-2"
               size="sm"
             >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
+              <HiOutlineLogout className="w-5 h-5 mr-2" />
               Sign Out
             </Button>
           </div>

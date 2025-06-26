@@ -9,6 +9,7 @@ import { ApiError, UpdateProfileRequest } from "@/types/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FiArrowLeft } from "react-icons/fi";
 
 export default function UpdateProfilePage() {
   const { user, setUser, refreshUser } = useAuth();
@@ -129,19 +130,7 @@ export default function UpdateProfilePage() {
           </div>
           <Link href="/dashboard/profile">
             <Button variant="outline">
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
+              <FiArrowLeft className="w-4 h-4 mr-2" />
               Back to Profile
             </Button>
           </Link>
