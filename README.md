@@ -102,10 +102,6 @@ c:\laragon\www\to-do-with-nextjs
 - **Theme:** Easily customize colors and shadows via `tailwind.config.js` and CSS variables.
 - **Fonts:** Uses [Geist](https://vercel.com/font) for modern typography.
 
-## Contributing
-
-Contributions are welcome! Please open issues or submit pull requests for improvements or bug fixes.
-
 ## Contact
 
 For questions or support, please contact [suryazulfikar22@gmail.com].
