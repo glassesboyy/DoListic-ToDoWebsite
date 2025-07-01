@@ -7,13 +7,13 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import {
-  HiOutlineX,
-  HiOutlineMenu,
-  HiOutlineViewGrid,
   HiOutlineClipboardList,
-  HiOutlineUser,
-  HiOutlineTrash,
   HiOutlineLogout,
+  HiOutlineMenu,
+  HiOutlineTrash,
+  HiOutlineUser,
+  HiOutlineViewGrid,
+  HiOutlineX,
 } from "react-icons/hi";
 
 interface DashboardLayoutProps {
@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-6 border-b border-border-light">
-            <h1 className="text-xl font-bold text-primary">To-Do App</h1>
+            <h1 className="text-xl font-bold text-primary">DoListic</h1>
             <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden p-2 rounded-md text-text-secondary hover:bg-bg-hover"

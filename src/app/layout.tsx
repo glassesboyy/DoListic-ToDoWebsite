@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ToDo App | Simple Management Task Web Application",
-  description: "A simple todo application built with Next.js",
+  title: "DoListic - Simple Management Task Web Application",
+  description:
+    "DoListic is a modern task management application built with Next.js",
 };
 
 export default function RootLayout({

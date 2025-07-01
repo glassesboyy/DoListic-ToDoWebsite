@@ -1,3 +1,5 @@
+// DoListic - ToDo Website Tailwind CSS Configuration
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [

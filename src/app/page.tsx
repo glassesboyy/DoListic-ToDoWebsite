@@ -34,7 +34,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-bg-main">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
-          <div className="text-2xl font-bold text-primary">To-Do App</div>
+          <div className="text-2xl font-bold text-primary">DoListic</div>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <Link href="/auth/login">
@@ -51,7 +51,7 @@ export default function HomePage() {
         <div className="text-center">
           <h1 className="text-5xl font-bold text-text-primary mb-6">
             Organize Your Life with{" "}
-            <span className="text-primary">To-Do App</span>
+            <span className="text-primary">DoListic</span>
           </h1>
           <p className="text-xl text-text-secondary mb-8 max-w-3xl mx-auto">
             Stay productive and organized with our intuitive task management

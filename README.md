@@ -1,9 +1,9 @@
-# To-Do App
+# DoListic - Simple Management Task Web Application
 
 > **Backend repository:**  
 > This is the frontend project. The backend RESTful API for this app is available at [https://github.com/wyasana12/to-do-with-golang.git](https://github.com/wyasana12/to-do-with-golang.git)
 
-A modern, full-featured task management web application built with [Next.js](https://nextjs.org), TypeScript, and Tailwind CSS. This app allows users to create, manage, and organize their daily tasks efficiently, complete with authentication, attachments, trash management, and a responsive dashboard.
+DoListic is a modern, full-featured task management web application built with [Next.js](https://nextjs.org), TypeScript, and Tailwind CSS. This app allows users to create, manage, and organize their daily tasks efficiently, complete with authentication, attachments, trash management, and a responsive dashboard.
 
 ## Features
 
