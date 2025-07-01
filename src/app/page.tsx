@@ -8,6 +8,27 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { FiClipboard, FiLock, FiZap } from "react-icons/fi";
 
+// Tambahkan komponen logo sederhana
+function DoListicLogo() {
+  return (
+    <svg
+      className="w-8 h-8 text-primary mr-2"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="4" y="4" width="24" height="24" rx="6" fill="currentColor" />
+      <path
+        d="M10 16l4 4 8-8"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
@@ -34,7 +55,11 @@ export default function HomePage() {
     <div className="min-h-screen bg-bg-main">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
-          <div className="text-2xl font-bold text-primary">DoListic</div>
+          {/* Branding dengan logo */}
+          <div className="flex items-center">
+            <DoListicLogo />
+            <span className="text-2xl font-bold text-primary">DoListic</span>
+          </div>
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <Link href="/auth/login">

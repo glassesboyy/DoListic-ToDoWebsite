@@ -15,6 +15,28 @@ import {
   FiUser,
 } from "react-icons/fi";
 
+// Komponen logo yang sama seperti di landing page
+function DoListicLogo() {
+  return (
+    <svg
+      className="w-8 h-8 text-primary mr-2"
+      color="currentColor"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="4" y="4" width="24" height="24" rx="6" fill="currentColor" />
+      <path
+        d="M10 16l4 4 8-8"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const { tasks, loading } = useTask();
@@ -30,7 +52,12 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Greeting */}
       <div className="bg-bg-card rounded-lg shadow-custom border border-border-light p-8">
-        <div className="text-center">
+        <div className="text-center flex flex-col items-center">
+          {/* Branding dengan logo */}
+          <div className="flex items-center justify-center mb-2">
+            <DoListicLogo />
+            <span className="text-2xl font-bold text-primary">DoListic</span>
+          </div>
           <h1 className="text-3xl font-bold text-text-primary mb-2">
             Halo, {user?.name || user?.username || "User"}! 👋
           </h1>
