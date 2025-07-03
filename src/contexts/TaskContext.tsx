@@ -64,11 +64,14 @@ export function TaskProvider({ children }: { children: ReactNode }) {
         limit: pageLimit,
       };
       const response = await TaskAPI.getTasks(filtersWithPage);
-      setTasks(Array.isArray(response.data) ? response.data : []);
-      setCurrentPage(response.page || 1);
-      setTotalPages(response.total_pages || 1);
-      setTotalTasks(response.total || 0);
-      setPageLimit(response.limit || 10);
+      // Ambil data dan pagination dari response.data
+      const tasksData = response.data?.data ?? [];
+      const pagination = response.data?.pagination ?? {};
+      setTasks(Array.isArray(tasksData) ? tasksData : []);
+      setCurrentPage(pagination.page || 1);
+      setTotalPages(pagination.total_pages || 1);
+      setTotalTasks(pagination.total || 0);
+      setPageLimit(pagination.limit || 10);
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || "Failed to fetch tasks");

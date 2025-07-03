@@ -62,11 +62,15 @@ export interface TaskFilters {
 export interface PaginatedTasksResponse {
   status: string;
   message: string;
-  data: Task[];
-  page: number;
-  limit: number;
-  total: number;
-  total_pages: number;
+  data: {
+    data: Task[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      total_pages: number;
+    };
+  };
 }
 
 export interface TasksResponse extends PaginatedTasksResponse {}
