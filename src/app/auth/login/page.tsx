@@ -137,7 +137,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full"
+            className="w-full flex items-center justify-center"
             size="lg"
           >
             {isLoading ? "Signing in..." : "Sign In"}

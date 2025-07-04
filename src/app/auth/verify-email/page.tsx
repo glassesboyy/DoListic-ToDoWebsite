@@ -75,7 +75,10 @@ function VerifyEmailContent() {
               Email Verified!
             </h1>
             <p className="text-text-secondary mb-6">{message}</p>
-            <Button onClick={() => router.push("/auth/login")}>
+            <Button
+              onClick={() => router.push("/auth/login")}
+              className="flex items-center justify-center"
+            >
               Go to Sign In
             </Button>
           </div>
@@ -94,7 +97,10 @@ function VerifyEmailContent() {
               <Alert type="error" message={message} />
             </div>
             <div className="space-y-3">
-              <Button onClick={() => router.push("/auth/register")}>
+              <Button
+                onClick={() => router.push("/auth/register")}
+                className="flex items-center justify-center"
+              >
                 Register Again
               </Button>
               <div>

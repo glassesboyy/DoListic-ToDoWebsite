@@ -159,7 +159,7 @@ export default function RegisterPage() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full"
+            className="w-full flex items-center justify-center"
             size="lg"
           >
             {isLoading ? "Creating Account..." : "Create Account"}

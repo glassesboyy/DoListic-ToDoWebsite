@@ -35,7 +35,7 @@ export default function RegisterSuccessPage() {
           <div className="space-y-3">
             <Button
               onClick={() => router.push("/auth/login")}
-              className="w-full"
+              className="w-full flex items-center justify-center"
             >
               Go to Sign In
             </Button>

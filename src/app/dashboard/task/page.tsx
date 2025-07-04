@@ -9,11 +9,11 @@ import { Task } from "@/types/task";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  FiPlus,
-  FiTrash,
   FiChevronLeft,
   FiChevronRight,
   FiFile,
+  FiPlus,
+  FiTrash,
 } from "react-icons/fi";
 
 export default function TaskPage() {
@@ -128,7 +128,10 @@ export default function TaskPage() {
             Manage your tasks and track your progress
           </p>
         </div>
-        <Button onClick={handleCreateTask}>
+        <Button
+          onClick={handleCreateTask}
+          className="flex items-center justify-center"
+        >
           <FiPlus className="w-4 h-4 mr-2" />
           Create Task
         </Button>
@@ -175,7 +178,11 @@ export default function TaskPage() {
                 <Button variant="outline" onClick={clearSelection}>
                   Clear Selection
                 </Button>
-                <Button variant="danger" onClick={handleBulkDelete}>
+                <Button
+                  variant="danger"
+                  onClick={handleBulkDelete}
+                  className="flex items-center justify-center"
+                >
                   <FiTrash className="w-4 h-4 mr-2" />
                   Delete Selected ({safeSelectedTasks.length})
                 </Button>
@@ -234,6 +241,7 @@ export default function TaskPage() {
                 size="sm"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage <= 1}
+                className="flex items-center justify-center"
               >
                 <FiChevronLeft className="w-4 h-4 mr-1" />
                 Prev
@@ -256,6 +264,7 @@ export default function TaskPage() {
                 size="sm"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
+                className="flex items-center justify-center"
               >
                 Next
                 <FiChevronRight className="w-4 h-4 ml-1" />

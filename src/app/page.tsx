@@ -63,10 +63,17 @@ export default function HomePage() {
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             <Link href="/auth/login">
-              <Button variant="outline">Sign In</Button>
+              <Button
+                variant="outline"
+                className="flex items-center justify-center"
+              >
+                Sign In
+              </Button>
             </Link>
             <Link href="/auth/register">
-              <Button>Get Started</Button>
+              <Button className="flex items-center justify-center">
+                Get Started
+              </Button>
             </Link>
           </div>
         </div>
@@ -84,10 +91,16 @@ export default function HomePage() {
           </p>
           <div className="space-x-4">
             <Link href="/auth/register">
-              <Button size="lg">Start Free Today</Button>
+              <Button size="lg" className="flex items-center justify-center">
+                Start Free Today
+              </Button>
             </Link>
             <Link href="/auth/login">
-              <Button variant="outline" size="lg">
+              <Button
+                variant="outline"
+                size="lg"
+                className="flex items-center justify-center"
+              >
                 Sign In
               </Button>
             </Link>

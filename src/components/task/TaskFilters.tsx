@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import { TaskFilters, TaskStatus } from "@/types/task";
-import { HiOutlineSearch } from "react-icons/hi";
+import { FiRefreshCw, FiSearch } from "react-icons/fi";
 
 interface TaskFiltersProps {
   filters: TaskFilters;
@@ -87,12 +87,17 @@ export default function TaskFiltersComponent({
         />
       </div>
 
-      <div className="flex items-center space-x-3">
-        <Button onClick={onSearch}>
-          <HiOutlineSearch className="w-4 h-4 mr-2" />
+      <div className="flex items-center space-x-2">
+        <Button onClick={onSearch} className="flex items-center justify-center">
+          <FiSearch className="w-4 h-4 mr-2" />
           Search
         </Button>
-        <Button variant="outline" onClick={onReset}>
+        <Button
+          variant="outline"
+          onClick={onReset}
+          className="flex items-center justify-center"
+        >
+          <FiRefreshCw className="w-4 h-4 mr-2" />
           Reset
         </Button>
       </div>

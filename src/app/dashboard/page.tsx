@@ -74,7 +74,7 @@ export default function DashboardPage() {
             className="w-full flex flex-col items-center py-6"
             variant="outline"
           >
-            <FiList className="w-8 h-8 mb-2 text-primary" />
+            <FiList className="w-8 h-8 mb-2" />
             <span className="font-semibold">View All Tasks</span>
           </Button>
         </Link>
@@ -98,7 +98,7 @@ export default function DashboardPage() {
             className="w-full flex flex-col items-center py-6"
             variant="outline"
           >
-            <FiUser className="w-8 h-8 mb-2 text-secondary" />
+            <FiUser className="w-8 h-8 mb-2" />
             <span className="font-semibold">My Profile</span>
           </Button>
         </Link>

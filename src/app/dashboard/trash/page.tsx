@@ -183,11 +183,19 @@ export default function TrashPage() {
                 <Button variant="outline" onClick={clearSelection}>
                   Clear Selection
                 </Button>
-                <Button variant="secondary" onClick={handleBulkRestore}>
+                <Button
+                  variant="secondary"
+                  onClick={handleBulkRestore}
+                  className="flex items-center justify-center"
+                >
                   <FiRotateCcw className="w-4 h-4 mr-2" />
                   Restore Selected ({safeSelectedTasks.length})
                 </Button>
-                <Button variant="danger" onClick={handleBulkPermanentDelete}>
+                <Button
+                  variant="danger"
+                  onClick={handleBulkPermanentDelete}
+                  className="flex items-center justify-center"
+                >
                   <FiTrash className="w-4 h-4 mr-2" />
                   Delete Forever ({safeSelectedTasks.length})
                 </Button>
