@@ -1,4 +1,4 @@
-# DoListic - Simple Management Task Web Application
+# DoListic - Task Management Web Application
 
 > **Backend repository:**  
 > This is the frontend project. The backend RESTful API for this app is available at [https://github.com/wyasana12/to-do-with-golang.git](https://github.com/wyasana12/to-do-with-golang.git)
