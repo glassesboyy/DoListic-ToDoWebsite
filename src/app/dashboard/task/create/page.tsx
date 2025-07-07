@@ -112,7 +112,7 @@ export default function CreateTaskPage() {
           </p>
         </div>
         <Button variant="outline" onClick={() => router.back()}>
-          ← Back
+          Back
         </Button>
       </div>
 

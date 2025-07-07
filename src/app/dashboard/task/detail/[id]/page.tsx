@@ -134,7 +134,7 @@ export default function TaskDetailPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-text-primary">Task Details</h1>
           <Button variant="outline" onClick={() => router.back()}>
-            ← Back
+            Back
           </Button>
         </div>
 
@@ -168,16 +168,19 @@ export default function TaskDetailPage() {
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={() => router.back()}>
-            ← Back
+            Back
           </Button>
           <Button
-            variant="outline"
+            variant="primary"
             onClick={() => router.push(`/dashboard/task/edit/${task.id}`)}
           >
             Edit Task
           </Button>
-          <Button variant="danger" onClick={() => setShowDeleteConfirm(true)}>
-            <FiTrash className="w-4 h-4 mr-2" />
+          <Button
+            icon={<FiTrash />}
+            variant="danger"
+            onClick={() => setShowDeleteConfirm(true)}
+          >
             Delete
           </Button>
         </div>

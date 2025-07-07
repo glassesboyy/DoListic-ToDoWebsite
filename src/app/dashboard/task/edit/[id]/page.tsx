@@ -1,16 +1,16 @@
 "use client";
 
-import Input from "@/components/ui/Input";
-import Textarea from "@/components/ui/Textarea";
-import Select from "@/components/ui/Select";
-import Button from "@/components/ui/Button";
 import Alert from "@/components/ui/Alert";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import Select from "@/components/ui/Select";
+import Textarea from "@/components/ui/Textarea";
 import { useTask } from "@/contexts/TaskContext";
+import TaskAPI from "@/lib/taskApi";
+import { ApiError } from "@/types/auth";
 import { Task, UpdateTaskRequest } from "@/types/task";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import TaskAPI from "@/lib/taskApi";
-import { ApiError } from "@/types/auth";
 
 export default function EditTaskPage() {
   const params = useParams();
@@ -154,7 +154,7 @@ export default function EditTaskPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-text-primary">Edit Task</h1>
           <Button variant="outline" onClick={() => router.back()}>
-            ← Back
+            Back
           </Button>
         </div>
 
@@ -182,11 +182,11 @@ export default function EditTaskPage() {
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={() => router.back()}>
-            ← Back
+            Back
           </Button>
           {task && (
             <Button
-              variant="outline"
+              variant="primary"
               onClick={() => router.push(`/dashboard/task/detail/${task.id}`)}
             >
               View Details

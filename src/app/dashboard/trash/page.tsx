@@ -146,7 +146,7 @@ export default function TrashPage() {
           variant="outline"
           onClick={() => router.push("/dashboard/task")}
         >
-          ← Back to Tasks
+          Back to Tasks
         </Button>
       </div>
 
@@ -186,17 +186,15 @@ export default function TrashPage() {
                 <Button
                   variant="secondary"
                   onClick={handleBulkRestore}
-                  className="flex items-center justify-center"
+                  icon={<FiRotateCcw />}
                 >
-                  <FiRotateCcw className="w-4 h-4 mr-2" />
                   Restore Selected ({safeSelectedTasks.length})
                 </Button>
                 <Button
                   variant="danger"
                   onClick={handleBulkPermanentDelete}
-                  className="flex items-center justify-center"
+                  icon={<FiTrash />}
                 >
-                  <FiTrash className="w-4 h-4 mr-2" />
                   Delete Forever ({safeSelectedTasks.length})
                 </Button>
               </div>

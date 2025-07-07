@@ -129,8 +129,7 @@ export default function UpdateProfilePage() {
             </p>
           </div>
           <Link href="/dashboard/profile">
-            <Button variant="outline">
-              <FiArrowLeft className="w-4 h-4 mr-2" />
+            <Button icon={<FiArrowLeft />} variant="outline">
               Back to Profile
             </Button>
           </Link>

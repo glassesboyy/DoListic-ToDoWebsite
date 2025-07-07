@@ -88,16 +88,10 @@ export default function TaskFiltersComponent({
       </div>
 
       <div className="flex items-center space-x-2">
-        <Button onClick={onSearch} className="flex items-center justify-center">
-          <FiSearch className="w-4 h-4 mr-2" />
+        <Button onClick={onSearch} icon={<FiSearch />}>
           Search
         </Button>
-        <Button
-          variant="outline"
-          onClick={onReset}
-          className="flex items-center justify-center"
-        >
-          <FiRefreshCw className="w-4 h-4 mr-2" />
+        <Button variant="outline" icon={<FiRefreshCw />} onClick={onReset}>
           Reset
         </Button>
       </div>

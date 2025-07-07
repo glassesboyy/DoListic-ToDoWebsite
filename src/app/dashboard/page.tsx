@@ -71,34 +71,36 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         <Link href="/dashboard/task">
           <Button
+            icon={<FiList />}
             className="w-full flex flex-col items-center py-6"
             variant="outline"
           >
-            <FiList className="w-8 h-8 mb-2" />
             <span className="font-semibold">View All Tasks</span>
           </Button>
         </Link>
         <Link href="/dashboard/task/create">
-          <Button className="w-full flex flex-col items-center py-6">
-            <FiPlus className="w-8 h-8 mb-2" />
+          <Button
+            icon={<FiPlus />}
+            className="w-full flex flex-col items-center py-6"
+          >
             <span className="font-semibold">Create New Task</span>
           </Button>
         </Link>
         <Link href="/dashboard/trash">
           <Button
+            icon={<FiTrash2 />}
             className="w-full flex flex-col items-center py-6"
             variant="danger"
           >
-            <FiTrash2 className="w-8 h-8 mb-2" />
             <span className="font-semibold">Trash</span>
           </Button>
         </Link>
         <Link href="/dashboard/profile">
           <Button
+            icon={<FiUser />}
             className="w-full flex flex-col items-center py-6"
             variant="outline"
           >
-            <FiUser className="w-8 h-8 mb-2" />
             <span className="font-semibold">My Profile</span>
           </Button>
         </Link>

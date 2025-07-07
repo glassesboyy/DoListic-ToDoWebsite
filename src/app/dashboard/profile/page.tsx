@@ -37,11 +37,7 @@ export default function ProfilePage() {
             </p>
           </div>
           <Link href="/dashboard/profile/update-profile">
-            <Button
-              variant="outline"
-              className="flex items-center justify-center"
-            >
-              <FiEdit className="w-4 h-4 mr-2" />
+            <Button icon={<FiEdit />} variant="outline">
               Edit Profile
             </Button>
           </Link>

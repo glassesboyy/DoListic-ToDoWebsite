@@ -97,7 +97,7 @@ export default function TaskPage() {
   };
 
   const handleSearch = () => {
-    fetchTasks(filters, 1); // always reset to page 1 on search
+    fetchTasks(filters, 1);
   };
 
   const handleResetFilters = () => {
@@ -129,10 +129,10 @@ export default function TaskPage() {
           </p>
         </div>
         <Button
+          icon={<FiPlus />}
           onClick={handleCreateTask}
           className="flex items-center justify-center"
         >
-          <FiPlus className="w-4 h-4 mr-2" />
           Create Task
         </Button>
       </div>
@@ -181,9 +181,8 @@ export default function TaskPage() {
                 <Button
                   variant="danger"
                   onClick={handleBulkDelete}
-                  className="flex items-center justify-center"
+                  icon={<FiTrash />}
                 >
-                  <FiTrash className="w-4 h-4 mr-2" />
                   Delete Selected ({safeSelectedTasks.length})
                 </Button>
               </div>
@@ -241,9 +240,8 @@ export default function TaskPage() {
                 size="sm"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage <= 1}
-                className="flex items-center justify-center"
+                icon={<FiChevronLeft />}
               >
-                <FiChevronLeft className="w-4 h-4 mr-1" />
                 Prev
               </Button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
@@ -264,10 +262,9 @@ export default function TaskPage() {
                 size="sm"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
-                className="flex items-center justify-center"
+                icon={<FiChevronRight />}
               >
                 Next
-                <FiChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </div>
           </div>

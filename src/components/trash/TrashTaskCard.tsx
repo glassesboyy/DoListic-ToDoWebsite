@@ -1,6 +1,6 @@
-import { TrashTask } from "@/types/trash";
-import { TaskStatus } from "@/types/task";
 import Button from "@/components/ui/Button";
+import { TaskStatus } from "@/types/task";
+import { TrashTask } from "@/types/trash";
 import { HiOutlineRefresh, HiOutlineTrash } from "react-icons/hi";
 
 interface TrashTaskCardProps {
@@ -93,17 +93,17 @@ export default function TrashTaskCard({
           <Button
             variant="secondary"
             size="sm"
+            icon={<HiOutlineRefresh className="w-4 h-4" />}
             onClick={() => onRestore(task.id)}
           >
-            <HiOutlineRefresh className="w-4 h-4 mr-1" />
             Restore
           </Button>
           <Button
             variant="danger"
             size="sm"
+            icon={<HiOutlineTrash className="w-4 h-4" />}
             onClick={() => onPermanentDelete(task.id)}
           >
-            <HiOutlineTrash className="w-4 h-4 mr-1" />
             Delete Forever
           </Button>
         </div>

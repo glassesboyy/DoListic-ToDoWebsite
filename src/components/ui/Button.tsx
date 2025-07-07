@@ -28,7 +28,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseClasses = `
-    inline-flex items-center justify-center font-medium rounded-xl
+    inline-flex items-center justify-center font-medium rounded-lg
     transition-all duration-200 ease-in-out
     focus:outline-none focus:ring-2 focus:ring-offset-2
     disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none
@@ -117,23 +117,15 @@ export default function Button({
     if (isLoading) {
       return (
         <HiOutlineRefresh
-          className={`animate-spin ${loadingSpinnerSizeClasses[size]} ${
-            iconPosition === "right" ? "ml-2" : "mr-2"
-          }`}
+          className={`animate-spin ${loadingSpinnerSizeClasses[size]}`}
         />
       );
     }
 
     if (icon) {
-      return (
-        <span
-          className={`${iconSizeClasses[size]} ${
-            iconPosition === "right" ? "ml-2" : "mr-2"
-          }`}
-        >
-          {icon}
-        </span>
-      );
+      return React.cloneElement(icon as React.ReactElement<any>, {
+        className: `${iconSizeClasses[size]}`,
+      });
     }
 
     return null;

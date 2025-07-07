@@ -116,13 +116,11 @@ export default function TaskCard({
                 type="checkbox"
                 checked={isSelected}
                 onChange={() => onSelect(task.id)}
-                className="w-5 h-5 text-primary-500 border-2 border-border-medium rounded-lg 
+                className="w-5 h-5 text-primary-500 border-2 border-border-medium rounded-lg
                           focus:ring-primary-300 focus:ring-offset-2 transition-all duration-200
                           hover:border-primary-400 hover:shadow-sm"
               />
-              {isSelected && (
-                <div className="absolute inset-0 bg-primary-500 rounded-lg animate-pulse" />
-              )}
+              {isSelected && <div className="absolute inset-0" />}
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-text-primary text-xl mb-2 line-clamp-2 leading-tight">
